@@ -20,11 +20,11 @@ pub fn build_object<'a>(
     match &object_type {
         ObjectType::Player => {
             eprintln!(
-                    "[WARNING]\n    A `Player` object is placed in the \
+                "[WARNING]\n    A `Player` object is placed in the \
                      level!\n    The player is loaded automatically by the \
                      game, don't place them in the levels.\n    The placed \
                      player object will not be loaded."
-                );
+            );
             // let player_entity = build_player(world, transform, size);
             // let _ = build_camera(world, player_entity);
             None
@@ -168,7 +168,8 @@ pub fn build_player(
         .with(Object::from(ObjectType::Player))
         .with(Player::default())
         .with(Velocity::new(0.0, player_speed))
-        .with(sprite_render);
+        .with(sprite_render)
+        .with(Invincible::default());
 
     entity_builder = add_components_to_entity(
         entity_builder,
@@ -187,9 +188,7 @@ pub fn build_camera(
 ) -> amethyst::Result<()> {
     use amethyst::renderer::Camera as AmethystCamera;
     use amethyst::utils::ortho_camera::{
-        CameraNormalizeMode,
-        CameraOrtho,
-        CameraOrthoWorldCoordinates,
+        CameraNormalizeMode, CameraOrtho, CameraOrthoWorldCoordinates,
     };
 
     const LOADING_DISTANCE_PADDING: (f32, f32) = (0.0, 16.0);
@@ -203,12 +202,12 @@ pub fn build_camera(
         CameraOrtho::normalized(CameraNormalizeMode::Contain);
     let half_size = size.half();
     camera_ortho.world_coordinates = CameraOrthoWorldCoordinates {
-        top:    half_size.h,
+        top: half_size.h,
         bottom: -half_size.h,
-        left:   -half_size.w,
-        right:  half_size.w,
-        near:   0.0,
-        far:    100.0,
+        left: -half_size.w,
+        right: half_size.w,
+        near: 0.0,
+        far: 100.0,
     };
 
     let mut transform = Transform::default();

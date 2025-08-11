@@ -4,4 +4,5 @@ pub enum AnimationKey {
     LaneSwitch,
     GameOver,
     Cutscene,
+    Invincible,
 }

@@ -3,6 +3,7 @@ pub mod camera;
 pub mod coin;
 pub mod cutscene;
 pub mod delete_delay;
+pub mod invincible;
 pub mod object;
 pub mod obstacle;
 pub mod on_lane;
@@ -20,6 +21,7 @@ pub mod prelude {
     pub use super::coin::Coin;
     pub use super::cutscene::Cutscene;
     pub use super::delete_delay::DeleteDelay;
+    pub use super::invincible::Invincible;
     pub use super::object::Object;
     pub use super::obstacle::Obstacle;
     pub use super::on_lane::OnLane;

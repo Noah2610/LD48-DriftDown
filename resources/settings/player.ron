@@ -5,6 +5,10 @@
     z: 4.0,
 
     components: [
+        Health((
+            health: 3,
+            max_health: 3,
+        )),
         Size((
             w: 32.0,
             h: 32.0,
@@ -40,6 +44,16 @@
 
                 // EMPTY
                 (19, 1000),
+            ]),
+            Invincible: Cycle([
+                // FLASHING
+                (11, 100),
+                (10, 100),
+                (11, 100),
+                (10, 100),
+                (11, 100),
+                (10, 100),
+                (11, 100),
             ]),
         }),
         Hitbox(Custom([

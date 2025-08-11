@@ -30,6 +30,7 @@ pub enum EntityComponent {
     DeleteDelay(DeleteDelay),
     Rotate(Rotate),
     Cutscene(Cutscene),
+    Health(Health),
 }
 
 pub fn add_components_to_entity(
@@ -77,5 +78,6 @@ pub fn add_components_to_entity(
             Comp::DeleteDelay(delete_delay) => builder.with(delete_delay),
             Comp::Rotate(rotate) => builder.with(rotate),
             Comp::Cutscene(cutscene) => builder.with(cutscene),
+            Comp::Health(health) => builder.with(health),
         })
 }
