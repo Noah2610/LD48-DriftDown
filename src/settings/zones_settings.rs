@@ -1,6 +1,7 @@
 // resources/settings/zones
 
 use crate::resources::prelude::SongKey;
+use crate::settings::prelude::LanesSettings;
 use deathframe::core::components::prelude::Merge;
 use replace_with::replace_with_or_abort;
 use std::collections::HashMap;
@@ -14,7 +15,7 @@ pub struct ZonesSettings {
     #[serde(default)]
     pub config: ZonesConfig,
     #[serde(default)]
-    pub zones:  HashMap<ZoneId, ZoneSettings>,
+    pub zones: HashMap<ZoneId, ZoneSettings>,
 }
 
 #[derive(Deserialize, Default, Debug)]
@@ -27,14 +28,16 @@ pub struct ZonesConfig {
 #[serde(deny_unknown_fields)]
 pub struct ZoneSettings {
     #[serde(default)]
-    pub song:           Option<SongKey>,
-    pub player_speed:   f32,
+    pub song: Option<SongKey>,
+    pub player_speed: f32,
     #[serde(default)]
-    pub is_skippable:   bool,
+    pub is_skippable: bool,
     pub total_segments: Option<usize>,
-    pub first_segment:  Vec<SegmentId>,
-    pub final_segment:  Vec<SegmentId>,
-    pub segments:       HashMap<SegmentId, Vec<SegmentId>>,
+    pub first_segment: Vec<SegmentId>,
+    pub final_segment: Vec<SegmentId>,
+    pub segments: HashMap<SegmentId, Vec<SegmentId>>,
+    #[serde(default)]
+    pub lanes: Option<LanesSettings>,
 }
 
 impl Merge for ZonesSettings {
@@ -98,6 +101,7 @@ impl Merge for ZoneSettings {
             first_segment: _,
             final_segment: _,
             segments: _,
+            lanes: _,
         } = other;
         eprintln!(
             "[WARNING]\n    Careful, you have the same `zones.<ZONE-ID>` \

@@ -3,7 +3,7 @@ pub mod prelude {
     pub use super::collision_tag::{CollisionTag, SolidTag};
     pub use super::dispatcher_id::DispatcherId;
     pub use super::game_over::GameOver;
-    pub use super::lanes::{Lane, Lanes};
+    pub use super::lanes::{Lane, Lanes, DEFAULT_SEGMENT_WIDTH};
     pub use super::object_spawner::{ObjectSpawner, ObjectToSpawn};
     pub use super::savefile::{Highscore, Highscores, Savefile};
     pub use super::score::Score;

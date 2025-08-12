@@ -5,26 +5,25 @@ use crate::input::prelude::{MenuAction, MenuBindings};
 use crate::level_loader::build_segment;
 use crate::level_loader::objects::{build_camera, build_object, build_player};
 
-const SEGMENT_WIDTH: f32 = 128.0;
 const UI_SKIP_TEXT_ID: &str = "skip_zone_text";
 const UI_SCORE_ID: &str = "score";
 
 pub struct Ingame {
-    initial_zone_idx:        Option<usize>,
-    is_infinite_zone:        bool,
+    initial_zone_idx: Option<usize>,
+    is_infinite_zone: bool,
     load_new_zone_on_resume: bool,
-    ui_data:                 UiData,
-    is_zone_skippable:       bool,
+    ui_data: UiData,
+    is_zone_skippable: bool,
 }
 
 impl Default for Ingame {
     fn default() -> Self {
         Self {
-            initial_zone_idx:        None,
-            is_infinite_zone:        false,
+            initial_zone_idx: None,
+            is_infinite_zone: false,
             load_new_zone_on_resume: true,
-            ui_data:                 Default::default(),
-            is_zone_skippable:       false,
+            ui_data: Default::default(),
+            is_zone_skippable: false,
         }
     }
 }
@@ -117,7 +116,7 @@ impl Ingame {
             let _ = build_camera(
                 world,
                 Some(player),
-                Size::new(SEGMENT_WIDTH, 0.0),
+                Size::new(DEFAULT_SEGMENT_WIDTH, 0.0),
                 None,
             );
         } else {
@@ -211,10 +210,7 @@ impl Ingame {
     fn handle_skippable_zone(&self, world: &mut World) {
         use deathframe::amethyst::core::HiddenPropagate;
         use deathframe::amethyst::ecs::{
-            Entities,
-            Join,
-            ReadStorage,
-            WriteStorage,
+            Entities, Join, ReadStorage, WriteStorage,
         };
         use deathframe::amethyst::ui::UiTransform;
 
@@ -248,9 +244,7 @@ impl<'a, 'b> State<GameData<'a, 'b>, StateEvent> for Ingame {
             if let Some(&initial_zone_idx) = self.initial_zone_idx.as_ref() {
                 zones_manager.set_initial_zone_idx(initial_zone_idx);
             }
-            if self.is_infinite_zone {
-                zones_manager.set_infinite_zone(true);
-            }
+            zones_manager.set_infinite_zone(self.is_infinite_zone);
             zones_manager
         };
 
@@ -264,22 +258,28 @@ impl<'a, 'b> State<GameData<'a, 'b>, StateEvent> for Ingame {
         data.world.insert(Score::default());
 
         {
-            let lanes = Lanes::from((
-                &*data.world.read_resource::<LanesSettings>(),
-                SEGMENT_WIDTH,
-            ));
-            data.world.insert(lanes);
+            let lanes_default =
+                Lanes::from(&*data.world.read_resource::<LanesSettings>());
+            data.world.insert(lanes_default);
         }
 
         {
             use deathframe::amethyst::ecs::{ReadExpect, WriteExpect};
 
             data.world.exec(
-                |(mut zones_manager, settings): (
+                |(mut lanes, mut zones_manager, settings): (
+                    WriteExpect<Lanes>,
                     WriteExpect<ZonesManager>,
                     ReadExpect<ZonesSettings>,
                 )| {
                     zones_manager.stage_next_zone(&settings);
+                    if let Some(Some(lanes_settings)) = zones_manager
+                        .current_zone()
+                        .and_then(|zone_id| settings.zones.get(zone_id))
+                        .map(|zone_settings| &zone_settings.lanes)
+                    {
+                        lanes.set(lanes_settings);
+                    }
                 },
             );
         }

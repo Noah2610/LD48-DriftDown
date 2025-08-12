@@ -1,6 +1,6 @@
 #![enable(implicit_some)]
 (
-    volume: 0.5,
+    volume: 0.2,
 
     bgm: {
         MainMenu: (
@@ -37,7 +37,7 @@
             file: "shoot.wav",
         ),
         Hurt: (
-            file: "hurt.wav",
+            file: "death.wav",
         ),
     },
 )

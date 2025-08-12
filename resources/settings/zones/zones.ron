@@ -6,6 +6,8 @@
 (
     config: (
         zone_order: [
+            "playground",
+
             "well",
             "green",
             "space",

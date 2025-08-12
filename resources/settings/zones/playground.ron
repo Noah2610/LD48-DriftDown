@@ -1,0 +1,70 @@
+// src/settings/zones_settings.rs
+// ./zones.ron
+
+#![enable(implicit_some)]
+(
+    zones: {
+        "playground": (
+            song: Green,
+            player_speed: -128.0,
+
+            lanes: (
+                count: 3,
+                spacing: 20,
+            ),
+
+            total_segments: 12,
+            first_segment: ["v2/playground.json"],
+            final_segment: ["green/green_final.json"],
+            segments: {
+                "v2/playground.json": ["v2/playground.json"],
+
+                "green/green_first.json": [
+                    "green/green_easy_0.json",
+                    "green/green_easy_0.json",
+                    "green/green_easy_1.json",
+                    "green/green_easy_2.json",
+                    "green/green_easy_3.json",
+                ],
+                "green/green_easy_0.json": [
+                    "green/green_easy_1.json",
+                    "green/green_easy_2.json",
+                    "green/green_easy_3.json",
+                ],
+                "green/green_easy_1.json": [
+                    "green/green_easy_0.json",
+                    "green/green_easy_0.json",
+                    "green/green_easy_2.json",
+                    "green/green_easy_3.json",
+                    "green/green_easy_3.json",
+                    "green/green_medium_1.json",
+                    "green/green_medium_0.json",
+                ],
+                "green/green_easy_2.json": [
+                    "green/green_easy_0.json",
+                    "green/green_easy_1.json",
+                    "green/green_easy_1.json",
+                    "green/green_easy_3.json",
+                    "green/green_medium_0.json",
+                    "green/green_medium_1.json",
+                ],
+                "green/green_easy_3.json": [
+                    "green/green_easy_0.json",
+                    "green/green_easy_1.json",
+                    "green/green_easy_2.json",
+                    "green/green_medium_1.json",
+                ],
+                "green/green_medium_0.json": [
+                    "green/green_easy_0.json",
+                    "green/green_easy_1.json",
+                    "green/green_easy_2.json",
+                ],
+                "green/green_medium_1.json": [
+                    "green/green_easy_0.json",
+                    "green/green_easy_1.json",
+                    "green/green_easy_2.json",
+                ],
+            }
+        ),
+    },
+)
