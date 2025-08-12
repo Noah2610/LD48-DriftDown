@@ -4,4 +4,5 @@ pub enum SoundKey {
     LaneSwitch,
     GameOver,
     Shoot,
+    Hurt,
 }

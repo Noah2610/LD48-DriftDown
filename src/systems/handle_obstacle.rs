@@ -12,6 +12,7 @@ impl<'a> System<'a> for HandleObstacle {
         Entities<'a>,
         WriteExpect<'a, GameOver>,
         WriteExpect<'a, SoundPlayer<SoundKey>>,
+        // Option<Write<'a, Song>>,
         ReadStorage<'a, Player>,
         ReadStorage<'a, Obstacle>,
         ReadStorage<'a, Collider<CollisionTag>>,
@@ -27,6 +28,7 @@ impl<'a> System<'a> for HandleObstacle {
             entities,
             mut game_over,
             mut sound_player,
+            // mut song_opt,
             player_store,
             obstacle_store,
             collider_store,
@@ -55,6 +57,7 @@ impl<'a> System<'a> for HandleObstacle {
                 invincible.tick();
                 if !invincible.is_invincible() {
                     animations.play(AnimationKey::Idle);
+                    // song_opt.map(|mut song| song.resume());
                 }
                 return;
             }
@@ -80,7 +83,13 @@ impl<'a> System<'a> for HandleObstacle {
                 invincible.set_iframes(IFRAMES);
                 animations.play(AnimationKey::Invincible);
 
-                if !health.is_alive() {
+                if health.is_alive() {
+                    // song_opt.map(|mut song| song.pause());
+                    sound_player.add_action(SoundAction::PlayWithVolume(
+                        SoundKey::Hurt,
+                        1.0,
+                    ));
+                } else {
                     game_over.0 = true;
                     velocity.x = 0.0;
                     velocity.y = 0.0;
