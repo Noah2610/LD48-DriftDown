@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="16" height="56" tilewidth="8" tileheight="8" infinite="0" nextlayerid="7" nextobjectid="42">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="16" height="56" tilewidth="8" tileheight="8" infinite="0" nextlayerid="8" nextobjectid="47">
  <editorsettings>
   <export target="../../../resources/levels/zones/v2/playground.json" format="ld48-export"/>
  </editorsettings>
  <tileset firstgid="1" source="../../tsx/tiles_red.tsx"/>
  <tileset firstgid="593" source="../../tsx/tiles_green.tsx"/>
- <objectgroup id="2" name="bg_base">
+ <objectgroup id="2" name="bg_base" visible="0">
   <properties>
    <property name="z" type="float" value="-1"/>
   </properties>
@@ -13,6 +13,13 @@
   <object id="27" name="BG" type="Custom(BgGreen)" x="0" y="144" width="128" height="144"/>
   <object id="28" name="BG" type="Custom(BgGreen)" x="0" y="288" width="128" height="144"/>
   <object id="29" name="BG" type="Custom(BgGreen)" x="0" y="304" width="128" height="144"/>
+ </objectgroup>
+ <objectgroup id="7" name="obstacles">
+  <object id="42" name="obstacle" type="Obstacle" x="32" y="88" width="16" height="16"/>
+  <object id="43" name="obstacle" type="Obstacle" x="80" y="88" width="16" height="16"/>
+  <object id="44" name="obstacle" type="Obstacle" x="56" y="208" width="16" height="16"/>
+  <object id="45" name="obstacle" type="Obstacle" x="32" y="336" width="16" height="16"/>
+  <object id="46" name="obstacle" type="Obstacle" x="56" y="376" width="16" height="16"/>
  </objectgroup>
  <layer id="4" name="border" width="16" height="56">
   <data encoding="csv">

@@ -85,10 +85,7 @@ impl<'a> System<'a> for HandleObstacle {
 
                 if health.is_alive() {
                     // song_opt.map(|mut song| song.pause());
-                    sound_player.add_action(SoundAction::PlayWithVolume(
-                        SoundKey::Hurt,
-                        1.0,
-                    ));
+                    sound_player.add_action(SoundAction::Play(SoundKey::Hurt));
                 } else {
                     game_over.0 = true;
                     velocity.x = 0.0;
