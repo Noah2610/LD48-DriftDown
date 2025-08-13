@@ -37,7 +37,7 @@
             file: "shoot.wav",
         ),
         Hurt: (
-            file: "death.wav",
+            file: "hurt.wav",
         ),
     },
 )
