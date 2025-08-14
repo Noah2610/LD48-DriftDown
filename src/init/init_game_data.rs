@@ -169,6 +169,12 @@ pub(super) fn build_game_data<'a, 'b>(
         )?
         .with(
             DispatcherId::Ingame,
+            UpdateHealthUi::default(),
+            "update_health_ui_system",
+            &[],
+        )?
+        .with(
+            DispatcherId::Ingame,
             HandleTurret::default(),
             "handle_turret_system",
             &[],
