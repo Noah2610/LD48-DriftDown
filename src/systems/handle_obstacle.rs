@@ -13,6 +13,7 @@ impl<'a> System<'a> for HandleObstacle {
         WriteExpect<'a, GameOver>,
         WriteExpect<'a, SoundPlayer<SoundKey>>,
         // Option<Write<'a, Song>>,
+        WriteExpect<'a, Streak>,
         ReadStorage<'a, Player>,
         ReadStorage<'a, Obstacle>,
         ReadStorage<'a, Collider<CollisionTag>>,
@@ -29,6 +30,7 @@ impl<'a> System<'a> for HandleObstacle {
             mut game_over,
             mut sound_player,
             // mut song_opt,
+            mut streak,
             player_store,
             obstacle_store,
             collider_store,
@@ -58,6 +60,9 @@ impl<'a> System<'a> for HandleObstacle {
                 if !invincible.is_invincible() {
                     animations.play(AnimationKey::Idle);
                     // song_opt.map(|mut song| song.resume());
+
+                    // Restart streak
+                    streak.restart();
                 }
                 return;
             }
@@ -79,9 +84,13 @@ impl<'a> System<'a> for HandleObstacle {
             }
 
             if did_player_get_hit {
+                // Lose health
                 health.lose(1);
                 invincible.set_iframes(IFRAMES);
                 animations.play(AnimationKey::Invincible);
+
+                // Reset/stop streak
+                streak.reset();
 
                 if health.is_alive() {
                     // song_opt.map(|mut song| song.pause());

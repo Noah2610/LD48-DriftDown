@@ -192,6 +192,12 @@ pub(super) fn build_game_data<'a, 'b>(
             &[],
         )?
         .with(
+            DispatcherId::Ingame,
+            HandleStreak::default(),
+            "handle_streak_system",
+            &["handle_obstacle_system"],
+        )?
+        .with(
             DispatcherId::MainMenu,
             UpdateHighscoreUi::default(),
             "main_menu_update_highscore_ui_system",

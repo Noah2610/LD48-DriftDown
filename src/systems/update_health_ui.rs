@@ -10,13 +10,13 @@ impl<'a> System<'a> for UpdateHealthUi {
     type SystemData = (
         ReadStorage<'a, Player>,
         ReadStorage<'a, Health>,
-        WriteStorage<'a, UiTransform>,
+        ReadStorage<'a, UiTransform>,
         WriteStorage<'a, UiText>,
     );
 
     fn run(
         &mut self,
-        (player_store, health_store, mut ui_transform_store, mut ui_text_store): Self::SystemData,
+        (player_store, health_store, ui_transform_store, mut ui_text_store): Self::SystemData,
     ) {
         if let Some(player_health) = (&player_store, &health_store)
             .join()

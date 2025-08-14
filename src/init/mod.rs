@@ -23,6 +23,7 @@ pub fn run() -> amethyst::Result<()> {
         zones: zones_settings,
         audio: audio_settings,
         savefile: savefile_settings,
+        streak: streak_settings,
     } = settings;
 
     let mut game: amethyst::CoreApplication<GameData> =
@@ -35,6 +36,7 @@ pub fn run() -> amethyst::Result<()> {
             .with_resource(zones_settings)
             .with_resource(audio_settings)
             .with_resource(savefile_settings)
+            .with_resource(streak_settings)
             .build(game_data)?;
 
     game.run();

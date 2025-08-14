@@ -109,6 +109,12 @@ impl Ingame {
         }
 
         if let Some(player_speed) = player_speed_opt {
+            {
+                let mut streak = world.write_resource::<Streak>();
+                streak.base_player_speed = player_speed;
+                streak.restart();
+            }
+
             let mut transform = Transform::default();
             transform.set_translation_xyz(0.0, 64.0, 2.0);
             let size = Size::new(32.0, 32.0);
@@ -256,6 +262,7 @@ impl<'a, 'b> State<GameData<'a, 'b>, StateEvent> for Ingame {
         data.world.insert(ShouldLoadNextZone::default());
         data.world.insert(GameOver::default());
         data.world.insert(Score::default());
+        data.world.insert(Streak::default());
 
         {
             let lanes_default =

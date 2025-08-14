@@ -5,6 +5,7 @@ mod handle_delete_delay;
 mod handle_obstacle;
 mod handle_parent_delete;
 mod handle_segment_loading;
+mod handle_streak;
 mod handle_turret;
 mod handle_zone_select;
 mod handle_zone_switch;
@@ -23,6 +24,7 @@ pub mod prelude {
     pub use super::handle_obstacle::HandleObstacle;
     pub use super::handle_parent_delete::HandleParentDelete;
     pub use super::handle_segment_loading::HandleSegmentLoading;
+    pub use super::handle_streak::HandleStreak;
     pub use super::handle_turret::HandleTurret;
     pub use super::handle_zone_select::HandleZoneSelect;
     pub use super::handle_zone_switch::HandleZoneSwitch;
