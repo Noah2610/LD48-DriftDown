@@ -50,6 +50,15 @@ impl Ingame {
                 resource("ui/ingame.ron").to_str().unwrap(),
             );
 
+            // DEBUG UI
+            #[cfg(feature = "dev")]
+            {
+                self.create_ui(
+                    &mut data,
+                    resource("ui/debug.ron").to_str().unwrap(),
+                );
+            }
+
             data.world.insert(ObjectSpawner::default());
             data.world.write_resource::<ZoneSize>().reset();
 

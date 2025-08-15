@@ -36,7 +36,7 @@ pub(super) fn build_game_data<'a, 'b>(
         PhysicsBundle::<CollisionTag, SolidTag>::new().with_deps(&[]);
     let animation_bundle = AnimationBundle::<AnimationKey>::new();
 
-    let custom_game_data = GameDataBuilder::default()
+    let mut custom_game_data = GameDataBuilder::default()
         .custom(CustomData::default())
         .dispatcher(DispatcherId::MainMenu)?
         .dispatcher(DispatcherId::Ingame)?
@@ -239,6 +239,16 @@ pub(super) fn build_game_data<'a, 'b>(
             "update_selected_zone_ui_system",
             &[],
         )?;
+
+    #[cfg(feature = "dev")]
+    {
+        custom_game_data = custom_game_data.with(
+            DispatcherId::Ingame,
+            UpdateDebugUi::default(),
+            "debug_debug_ui_system",
+            &[],
+        )?;
+    }
 
     Ok(custom_game_data)
 }

@@ -22,6 +22,14 @@ impl Streak {
         self.streak_timer.update();
     }
 
+    pub fn pause(&mut self) {
+        self.streak_timer.pause();
+    }
+
+    pub fn resume(&mut self) {
+        self.streak_timer.resume();
+    }
+
     pub fn get_secs(&self) -> f32 {
         if self.is_active {
             self.streak_timer.time_output().as_seconds()

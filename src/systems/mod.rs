@@ -9,6 +9,7 @@ mod handle_streak;
 mod handle_turret;
 mod handle_zone_select;
 mod handle_zone_switch;
+mod update_debug_ui;
 mod update_health_ui;
 mod update_highscore_ui;
 mod update_on_lane;
@@ -28,6 +29,7 @@ pub mod prelude {
     pub use super::handle_turret::HandleTurret;
     pub use super::handle_zone_select::HandleZoneSelect;
     pub use super::handle_zone_switch::HandleZoneSwitch;
+    pub use super::update_debug_ui::UpdateDebugUi;
     pub use super::update_health_ui::UpdateHealthUi;
     pub use super::update_highscore_ui::UpdateHighscoreUi;
     pub use super::update_on_lane::UpdateOnLane;

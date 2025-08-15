@@ -9,10 +9,12 @@ pub struct Pause {
 
 impl Pause {
     fn start<'a, 'b>(&mut self, data: &mut StateData<GameData<'a, 'b>>) {
+        data.world.write_resource::<Streak>().pause();
         self.create_ui(data, resource("ui/pause.ron").to_str().unwrap());
     }
 
     fn stop<'a, 'b>(&mut self, data: &mut StateData<GameData<'a, 'b>>) {
+        data.world.write_resource::<Streak>().resume();
         self.delete_ui(data);
     }
 
