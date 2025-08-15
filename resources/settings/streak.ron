@@ -2,5 +2,8 @@
 
 #![enable(implicit_some)]
 (
+    // velocity = base_velocity + (secs_passed * speed_mult)
     speed_mult: 2.0,
+    // coins += Integer(secs_passed * coin_mult)
+    coin_mult: 0.1,
 )

@@ -1,6 +1,7 @@
 use super::system_prelude::*;
 use deathframe::physics::query;
 use query::prelude::{FilterQuery, Query};
+use std::collections::HashSet;
 
 #[derive(Default)]
 pub struct HandleCoinCollection;
@@ -8,6 +9,8 @@ pub struct HandleCoinCollection;
 impl<'a> System<'a> for HandleCoinCollection {
     type SystemData = (
         Entities<'a>,
+        ReadExpect<'a, Streak>,
+        ReadExpect<'a, StreakSettings>,
         WriteExpect<'a, Score>,
         WriteExpect<'a, SoundPlayer<SoundKey>>,
         ReadStorage<'a, Player>,
@@ -19,6 +22,8 @@ impl<'a> System<'a> for HandleCoinCollection {
         &mut self,
         (
             entities,
+            streak,
+            streak_settings,
             mut score,
             mut sound_player,
             player_store,
@@ -31,7 +36,7 @@ impl<'a> System<'a> for HandleCoinCollection {
             And(vec![IsState(Steady), IsTag(CollisionTag::Coin)])
         };
 
-        let mut collected_coin_ids = Vec::new();
+        let mut collected_coin_ids = HashSet::new();
 
         for (_, collider) in (&player_store, &collider_store).join() {
             let collisions = collider
@@ -39,7 +44,7 @@ impl<'a> System<'a> for HandleCoinCollection {
                 .exp(&query_exp)
                 .run();
             for collision in collisions {
-                collected_coin_ids.push(collision.id);
+                collected_coin_ids.insert(collision.id);
             }
         }
 
@@ -47,7 +52,9 @@ impl<'a> System<'a> for HandleCoinCollection {
             if collected_coin_ids.contains(&coin_entity.id()) {
                 let _ = entities.delete(coin_entity);
                 if !score.locked {
-                    score.coins += 1;
+                    score.coins += 1
+                        + (streak.get_secs() * streak_settings.coin_mult)
+                            as usize;
                 }
                 sound_player.add_action(SoundAction::Play(SoundKey::Coin));
             }

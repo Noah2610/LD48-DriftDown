@@ -27,9 +27,6 @@ impl<'a> System<'a> for HandleStreak {
         {
             velocity.y = streak.base_player_speed
                 - (streak.get_secs() * streak_settings.speed_mult);
-            dbg!(velocity.y);
-            dbg!(streak.get_secs());
-            dbg!(streak.is_active);
         }
     }
 }
