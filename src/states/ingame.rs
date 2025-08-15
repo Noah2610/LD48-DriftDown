@@ -75,32 +75,48 @@ impl Ingame {
             world.exec(
                 |(
                     mut zones_manager,
-                    settings,
+                    zones_settings,
                     mut songs,
                     savefile_settings,
                     mut savefile,
+                    mut lanes,
+                    default_lanes_settings,
                 ): (
                     WriteExpect<ZonesManager>,
                     ReadExpect<ZonesSettings>,
                     WriteExpect<Songs<SongKey>>,
                     ReadExpect<SavefileSettings>,
                     WriteExpect<Savefile>,
+                    WriteExpect<Lanes>,
+                    ReadExpect<LanesSettings>,
                 )| {
                     {
-                        zones_manager.stage_initial_segments(&settings);
-                        player_speed_opt =
-                            zones_manager.get_current_player_speed(&settings);
-                        if let Some(is_skippable) =
-                            zones_manager.is_current_zone_skippable(&settings)
+                        zones_manager.stage_initial_segments(&zones_settings);
+                        player_speed_opt = zones_manager
+                            .get_current_player_speed(&zones_settings);
+                        if let Some(is_skippable) = zones_manager
+                            .is_current_zone_skippable(&zones_settings)
                         {
                             self.is_zone_skippable = is_skippable;
                         }
                         songs.stop_all();
                         if let Some(song_key) =
-                            zones_manager.get_current_song(&settings)
+                            zones_manager.get_current_song(&zones_settings)
                         {
                             songs.play(song_key);
                         }
+
+                        let new_lanes_settings = zones_manager
+                            .current_zone()
+                            .and_then(|zone_id| {
+                                zones_settings.zones.get(zone_id)
+                            })
+                            .and_then(|zone_settings| {
+                                zone_settings.lanes.as_ref()
+                            })
+                            .unwrap_or(&*default_lanes_settings);
+                        dbg!(&new_lanes_settings);
+                        lanes.set(new_lanes_settings);
                     }
 
                     {
@@ -280,22 +296,14 @@ impl<'a, 'b> State<GameData<'a, 'b>, StateEvent> for Ingame {
         }
 
         {
-            use deathframe::amethyst::ecs::{ReadExpect, WriteExpect};
+            use deathframe::amethyst::ecs::{Read, ReadExpect, WriteExpect};
 
             data.world.exec(
-                |(mut lanes, mut zones_manager, settings): (
-                    WriteExpect<Lanes>,
+                |(mut zones_manager, zones_settings): (
                     WriteExpect<ZonesManager>,
                     ReadExpect<ZonesSettings>,
                 )| {
-                    zones_manager.stage_next_zone(&settings);
-                    if let Some(Some(lanes_settings)) = zones_manager
-                        .current_zone()
-                        .and_then(|zone_id| settings.zones.get(zone_id))
-                        .map(|zone_settings| &zone_settings.lanes)
-                    {
-                        lanes.set(lanes_settings);
-                    }
+                    zones_manager.stage_next_zone(&zones_settings);
                 },
             );
         }

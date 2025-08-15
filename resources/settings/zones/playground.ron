@@ -13,7 +13,7 @@
                 spacing: 20,
             ),
 
-            total_segments: 12,
+            total_segments: 1,
             first_segment: ["v2/playground.json"],
             final_segment: ["green/green_final.json"],
             segments: {
