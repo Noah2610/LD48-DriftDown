@@ -34,7 +34,7 @@ INCLUDE_FILES=( \
     "${ROOT}/README.md"
     "${ROOT}/LICENSE"
 )
-VERSION=
+[ -z "$VERSION" ] && VERSION=""
 
 function main {
     set_version
@@ -45,6 +45,8 @@ function main {
 }
 
 function set_version {
+    [ -n "$VERSION" ] && return
+
     if [ -z "$GITHUB_ACTIONS" ]; then
         # LOCAL
         VERSION="$( git rev-parse HEAD )"
