@@ -1,6 +1,6 @@
 [package]
 name = "ld48-driftdown"
-version = "1.0.3"
+version = "2.0.0-pre.0"
 authors = []
 edition = "2018"
 
